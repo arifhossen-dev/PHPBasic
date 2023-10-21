@@ -8,6 +8,8 @@
       go back
     </a>
     <p>
+      <?php echo $note['id'] ?>
+      <?php echo $note['user_id'] ?>
       <?php echo $note['body'] ?>
     </p>
   </div>
