@@ -34,6 +34,6 @@ class Authenticator
 
   public function logout()
   {
-    Session::destory();
+    Session::destroy();
   }
 }
