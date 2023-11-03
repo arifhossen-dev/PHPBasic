@@ -1,15 +1,18 @@
 <?php
+
 namespace Core;
+
 use Core\Middleware\Middleware;
-class Router 
+
+class Router
 {
     protected $routes = [];
 
     public function addRoute($method, $uri, $controller)
     {
         $this->routes[] = [
-            'method'=>$method,
-            'uri' =>$uri,
+            'method' => $method,
+            'uri' => $uri,
             'controller' => $controller,
             'middleware' => null
         ];
@@ -44,23 +47,30 @@ class Router
         return $this;
     }
 
-    function route($uri, $method) {
+    function route($uri, $method)
+    {
         foreach ($this->routes as $route) {
             if ($route['uri'] === $uri && $route['method'] === strtoupper($method)) {
                 Middleware::resolve($route['middleware']);
 
-                return require base_path('Http/controllers/'.$route['controller']);
+                return require base_path('Http/controllers/' . $route['controller']);
             }
         }
 
         $this->abort();
     }
-    
-    function abort($code = 404) {
+
+    function previousURL()
+    {
+        return $_SERVER['HTTP_REFERER'];
+    }
+
+    function abort($code = 404)
+    {
         http_response_code($code);
-    
+
         require base_path("views/{$code}.php");
-    
+
         die();
     }
 }
